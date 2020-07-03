@@ -18,7 +18,7 @@ class EmployerController extends Controller
     {
         $departments = Department::all();
         $employers = Employer::all();
-        return view('employer',compact('departments','employers'));
+        return view('employer', compact('departments', 'employers'));
     }
 
     /**
@@ -34,7 +34,7 @@ class EmployerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -46,28 +46,29 @@ class EmployerController extends Controller
             'middle_name' => 'nullable',
             'gender' => 'filled',
             'department_id' => 'required|array|min:1',
-            'departments.*' => ['distinct',Rule::in(Department::pluck('id'))]
+            'departments.*' => ['distinct', Rule::in(Department::pluck('id'))]
         ]);
         $user = Employer::create($data);
         $user->departments()->attach($data['department_id']);
-        return redirect()->back()->with('success','Employer has created');
+        return redirect()->back()->with('success', 'Employer has created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Employer  $employer
+     * @param \App\Models\Employer $employer
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Employer $employer)
     {
-        return view('employer_single',['employer' => $employer]);
+//        dd($employer->departments);
+        return view('employer_single', ['employer' => $employer, 'departments' => Department::all()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Employer  $employer
+     * @param \App\Models\Employer $employer
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Employer $employer)
@@ -79,25 +80,36 @@ class EmployerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Employer  $employer
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Employer $employer
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, Employer $employer)
     {
-        $data = $request->validate(['name' => 'required']);
+        $data = $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'salary' => 'integer',
+            'middle_name' => 'nullable',
+            'gender' => 'filled',
+            'department_id' => 'required|array|min:1',
+            'departments.*' => ['distinct', Rule::in(Department::pluck('id'))]
+        ]);
         $employer->update($data);
+        $employer->departments()->detach($data['department_id']);
+        $employer->departments()->attach($data['department_id']);
+        return redirect('/employer')->with('success','Employer was updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Employer  $employer
+     * @param \App\Models\Employer $employer
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Employer $employer)
     {
         $employer->delete();
-        return redirect()->back()->with('success','employer was deleted');
+        return redirect()->back()->with('success', 'employer was deleted');
     }
 }

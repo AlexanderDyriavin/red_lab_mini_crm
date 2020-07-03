@@ -80,7 +80,7 @@ class DepartmentController extends Controller
     {
         $name = $request->validate(['name' => 'required']);
         $department->update($name);
-        return redirect()->back();
+        return redirect('/department')->with('success', 'department was updated');
     }
 
     /**
@@ -92,7 +92,7 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         if ($department->employers()->exists()){
-            return redirect()->back()->with('error','this department has employers, you cant delete it ');
+            return redirect()->back()->withErrors('this department has employers, you cant delete it');
         }
         $department->delete();
         return redirect('/department')->with('success', 'department was deleted');

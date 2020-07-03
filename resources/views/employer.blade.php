@@ -65,13 +65,13 @@
                 <th scope="row">{{$employer->id}}</th>
                 <td>{{$employer->name}}</td>
                 <td>
-                @foreach($employer->departmentNames as $key => $dpName)
-                    {{$dpName->name}} ,
-                @endforeach
+                    @foreach($employer->departmentNames as $key => $dpName)
+                        {{$dpName->name}} ,
+                    @endforeach
                 </td>
                 <td><a href="/employer/{{$employer->id}}" class="btn btn-warning">Edit</a></td>
                 <td>
-                    <form  action="/employer/{{$employer->id}}" method="post">
+                    <form action="/employer/{{$employer->id}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
