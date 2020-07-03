@@ -13,9 +13,10 @@
 </head>
 <body>
 <div class="container">
-
-@yield('content')
-
+    @include('includes.navbar')
+    @include('includes.messages')
+    @yield('content')
+    @include('includes.footer')
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
