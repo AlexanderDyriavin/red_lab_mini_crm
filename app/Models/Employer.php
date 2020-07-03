@@ -38,9 +38,14 @@ class Employer extends Model
     protected $fillable = [
         'name', 'surname', 'middle_name', 'gender', 'salary'
     ];
+
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+    public function departmentNames()
+    {
+        return $this->belongsToMany(Department::class)->addSelect('name');
     }
     public function departments()
     {

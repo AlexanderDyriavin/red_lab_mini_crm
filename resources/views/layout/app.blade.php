@@ -8,6 +8,8 @@
     <title>{{env('APP_NAME')}}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/5093ad3721.css">
+    <script src="https://kit.fontawesome.com/5b5d1f8c4d.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">

@@ -18,15 +18,20 @@
         <tr>
             <th scope="col">id</th>
             <th scope="col">Department Name</th>
-            <th scope="col">Edit</th>
+            <th scope="col">Employers count</th>
+            <th scope="col">Employers Max Salary</th>
             <th scope="col">Update</th>
+            <th scope="col">Delete </th>
         </tr>
         </thead>
         <tbody>
-        @foreach($department as $department)
+        @foreach($departments as $department)
+
             <tr>
                 <th scope="row">{{$department->id}}</th>
                 <td>{{$department->name}}</td>
+                <td>{{$department->employers_count}}</td>
+                <td>{{$department->employersMaxSalary() ?? 0 }}  $</td>
                 <td><a href="/department/{{$department->id}}" class="btn btn-warning">Edit</a></td>
                 <td>
                     <form  action="/department/{{$department->id}}" method="post">

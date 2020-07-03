@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'DepartmentController@sheet');
 Route::resource('/department','DepartmentController');
 Route::resource('/employer','EmployerController');
