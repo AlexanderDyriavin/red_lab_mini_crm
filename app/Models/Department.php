@@ -31,8 +31,17 @@ class Department extends Model
         return $this->hasMany(Employer::class);
     }
 
+    public function employersMaxSalary()
+    {
+        return $this->belongsToMany(Employer::class)->addSelect('salary', 'employer_id')->max('salary');
+    }
+
     public function employers()
     {
         return $this->belongsToMany(Employer::class);
+    }
+    public function checkEmployer()
+    {
+        $this->hasMany(Employer::class);
     }
 }

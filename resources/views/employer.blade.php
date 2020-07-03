@@ -53,15 +53,22 @@
         <tr>
             <th scope="col">id</th>
             <th scope="col">Employer name</th>
+            <th scope="col">Department name</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
+
         @foreach($employers as $employer)
             <tr>
                 <th scope="row">{{$employer->id}}</th>
                 <td>{{$employer->name}}</td>
+                <td>
+                @foreach($employer->departmentNames as $key => $dpName)
+                    {{$dpName->name}} ,
+                @endforeach
+                </td>
                 <td><a href="/employer/{{$employer->id}}" class="btn btn-warning">Edit</a></td>
                 <td>
                     <form  action="/employer/{{$employer->id}}" method="post">

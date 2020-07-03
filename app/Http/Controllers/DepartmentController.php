@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Employer;
+use App\User;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -14,7 +16,10 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return view('department', ['department' => Department::all()]);
+        $departments = Department::all();
+        $count = Department::withCount('employers')->get();
+        $max = Employer::with('departments')->max('salary');
+        return view('department', ['departments' => $count]);
     }
 
     /**
@@ -86,7 +91,19 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
+        if ($department->employers()->exists()){
+            return redirect()->back()->with('error','this department has employers, you cant delete it ');
+        }
         $department->delete();
         return redirect('/department')->with('success', 'department was deleted');
+    }
+
+    public function sheet()
+    {
+        $employers = Employer::with('departments')->get();
+        $departments = Department::all();
+        return view('welcome',
+            ['employers' => $employers,
+                'departments' => $departments]);
     }
 }
